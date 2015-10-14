@@ -42,6 +42,21 @@ app.get('/artists', function(req, res) {
   });
 });
 
+app.get('/artists/:id', function(req, res) {
+  console.log(req.params.id);
+  Artist.findById(req.params.id).then(function(artist) {
+    if (!artist) {
+      res.json({
+        error: 'Artist not found'
+      }, 404);
+    } else {
+      res.json({
+        artist: artist
+      });
+    }    
+  });
+});
+
 app.get('/genres', function(req, res) {
   Genre.findAll().then(function(results) {
     res.json({
