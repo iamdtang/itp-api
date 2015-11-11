@@ -43,17 +43,37 @@ app.get('/artists', function(req, res) {
 });
 
 app.get('/artists/:id', function(req, res) {
+  'use strict';
+
   console.log(req.params.id);
-  Artist.findById(req.params.id).then(function(artist) {
+  var songQuery = Song.findAll({
+    where: {
+      artistId: req.params.id
+    }
+  });
+
+  var artistQuery = Artist.findById(req.params.id);
+
+  Q.all([ songQuery, artistQuery ]).then(function(data) {
+    var artist = data[1];
+
     if (!artist) {
-      res.json({
+      res.status(404).json({
         error: 'Artist not found'
-      }, 404);
-    } else {
-      res.json({
-        artist: artist
       });
-    }    
+    } else {
+      let response = {
+        artist: {
+          id: artist.id,
+          artistName: artist.artistName,
+          songs: data[0].map((song) => {
+            return song.id;
+          })
+        }
+      }
+
+      res.json(response);
+    }
   });
 });
 
