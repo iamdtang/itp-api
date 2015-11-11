@@ -34,6 +34,20 @@ app.get('/songs', function(req, res) {
   }
 });
 
+app.get('/songs/:id', function(req, res) {
+  Song.findById(req.params.id).then((song) => {
+    if (song) {
+      return res.json({
+        song: song
+      });
+    }
+
+    return res.status(404).json({
+      error: 'Song not found'
+    });
+  });
+});
+
 app.get('/artists', function(req, res) {
   Artist.findAll().then(function(results) {
     res.json({
