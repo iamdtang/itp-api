@@ -43,7 +43,9 @@ app.get('/songs/:id', function(req, res) {
     }
 
     return res.status(404).json({
-      error: 'Song not found'
+      errors: [
+        { status: "404", id: "SONG_NOT_FOUND", detail: "Song not found" }
+      ]
     });
   });
 });
@@ -73,7 +75,9 @@ app.get('/artists/:id', function(req, res) {
 
     if (!artist) {
       res.status(404).json({
-        error: 'Artist not found'
+        errors: [
+          { status: "404", id: "ARTIST_NOT_FOUND", detail: "Artist not found" }
+        ]
       });
     } else {
       let response = {
