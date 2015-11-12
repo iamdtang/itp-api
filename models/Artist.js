@@ -36,7 +36,7 @@ Artist.findWithSongs = function(id, success, error) {
       songs: data[0].map((song) => {
         return song.id;
       })
-    });
+    }, data[0]);
   });
 };
 

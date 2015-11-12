@@ -13,9 +13,10 @@ module.exports = {
   },
 
   one: function(req, res) {
-    Artist.findWithSongs(req.params.id, function(artist) {
+    Artist.findWithSongs(req.params.id, function(artist, songs) {
       res.json({
-        artist: artist
+        artist: artist,
+        songs: songs
       });
     }, function() {
       res.status(404).json({
