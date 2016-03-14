@@ -28,6 +28,28 @@ app.get('/api/v1/artists', function(req, res) {
   });
 });
 
+app.get('/api/v1/users', function(req, res) {
+  res.json({
+    data: [
+      {
+        id: 1,
+        first: 'David',
+        last: 'Tang'
+      },
+      {
+        id: 2,
+        first: 'Wayne',
+        last: 'Gretzky'
+      },
+      {
+        id: 3,
+        first: 'Tony',
+        last: 'Hawk'
+      }
+    ]
+  });
+});
+
 app.get('/api/v1/artists/:id', function(req, res) {
   Artist.findWithSongs(req.params.id, (artist) => {
     res.json(artist);
