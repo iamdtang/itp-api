@@ -7,12 +7,12 @@ var Song = sequelize.define('song', {
     type: Sequelize.STRING
   },
 
-  artistId: {
+  artist: {
     field: 'artist_id',
     type: Sequelize.INTEGER
   },
 
-  genreId: {
+  genre: {
     field: 'genre_id',
     type: Sequelize.INTEGER
   },

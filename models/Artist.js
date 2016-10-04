@@ -6,7 +6,7 @@ var Song = require('./Song');
 var Q = require('q');
 
 var Artist = sequelize.define('artist', {
-  artistName: {
+  name: {
     field: 'artist_name',
     type: Sequelize.STRING
   }

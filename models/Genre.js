@@ -2,7 +2,7 @@ var Sequelize = require('sequelize');
 var sequelize = require('./../config/sequelize');
 
 var Genre = sequelize.define('genre', {
-  genreTitle: {
+  name: {
     field: 'genre',
     type: Sequelize.STRING
   }
