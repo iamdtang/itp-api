@@ -3,6 +3,13 @@ const router = require('koa-router')();
 const Genre = require('./models/Genre');
 const Artist = require('./models/Artist');
 const Song = require('./models/Song');
+const cors = require('koa-cors');
+
+// app.use(function *(){
+//   this.set('Access-Control-Allow-Origin', '*');
+// });
+
+app.use(cors());
 
 router.get('/code-challenges/1', function *(next) {
   // make a JSON-API response for songs and have students
