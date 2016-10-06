@@ -59,6 +59,21 @@ router.get('/api/artists/:id/songs', function *(next) {
   this.body = { songs, artists: [ artist ] };
 });
 
+router.del('/api/songs/:id', function *(next) {
+  let song = yield Song.findById(this.params.id);
+  if (!song) {
+    this.status = 404;
+    return this.body = {
+      errors: [
+        { detail: `Song ${this.params.id} not found` }
+      ]
+    };
+  }
+
+  yield song.destroy();
+  this.status = 204;
+});
+
 app
   .use(router.routes())
   .use(router.allowedMethods());
