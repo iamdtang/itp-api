@@ -4,10 +4,8 @@ const Genre = require('./models/Genre');
 const Artist = require('./models/Artist');
 const Song = require('./models/Song');
 const cors = require('koa-cors');
-
-// app.use(function *(){
-//   this.set('Access-Control-Allow-Origin', '*');
-// });
+const ForbiddenResponse = require('./responses/forbidden');
+const NotFoundResponse = require('./responses/not-found');
 
 app.use(cors());
 
@@ -62,14 +60,16 @@ router.get('/api/artists/:id/songs', function *(next) {
 router.del('/api/songs/:id', function *(next) {
   let song = yield Song.findById(this.params.id);
   if (!song) {
-    this.status = 404;
-    return this.body = {
-      errors: [
-        { detail: `Song ${this.params.id} not found` }
-      ]
-    };
+    let response = new NotFoundResponse(`Song ${this.params.id} not found`);
+    this.status = response.status;
+    return this.body = response.body;
   }
 
+  if (song.createdBy === 'admin') {
+    let response = new ForbiddenResponse('This song cannot be deleted since it was created by the admin.');
+    this.status = response.status;
+    return this.body = response.body;
+  }
   yield song.destroy();
   this.status = 204;
 });
