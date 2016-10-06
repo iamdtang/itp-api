@@ -3,6 +3,7 @@
     "dotenv": "^2.0.0",
     "express": "^4.13.3",
     "koa": "^1.2.4",
+    "koa-bodyparser": "^2.2.0",
     "koa-cors": "0.0.16",
     "koa-router": "^5.4.0",
     "mysql": "^2.9.0",
