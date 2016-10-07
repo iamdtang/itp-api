@@ -75,6 +75,24 @@ router.del('/api/songs/:id', function *(next) {
   this.status = 204;
 });
 
+router.put('/api/songs/:id', function *(next) {
+  let song = yield Song.findById(this.params.id);
+  if (!song) {
+    let response = new NotFoundResponse(`Song ${this.params.id} not found`);
+    this.status = response.status;
+    return this.body = response.body;
+  }
+
+  if (song.createdBy === 'admin') {
+    let response = new ForbiddenResponse('This song cannot be deleted since it was created by the admin.');
+    this.status = response.status;
+    return this.body = response.body;
+  }
+
+  yield song.update(this.request.body);
+  this.body = { song };
+});
+
 router.get('/code-challenges/1', function *(next) {
   // make a JSON-API response for songs and have students
   // create a function that returns a promise that resolves with an array of songs
