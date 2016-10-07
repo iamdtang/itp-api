@@ -8,7 +8,8 @@
     "koa-router": "^5.4.0",
     "mysql": "^2.9.0",
     "q": "^1.4.1",
-    "sequelize": "^3.9.0"
+    "sequelize": "^3.9.0",
+    "validatorjs": "^3.7.0"
   },
   "engines": {
     "node": "6.6.0"
