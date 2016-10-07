@@ -27,6 +27,11 @@ router.get('/api/artists', function *(next) {
   this.body = { artists };
 });
 
+router.get('/api/artists/:id', function *(next) {
+  let artist = yield Artist.findById(this.params.id);
+  this.body = { artist };
+});
+
 router.get('/api/artists/:id/songs', function *(next) {
   let songs = yield Song.findAll({
     where: {
@@ -34,7 +39,7 @@ router.get('/api/artists/:id/songs', function *(next) {
     }
   });
 
-  let artist = yield Artist.findById(this.params.id)
+  let artist = yield Artist.findById(this.params.id);
   this.body = { songs, artists: [ artist ] };
 });
 
