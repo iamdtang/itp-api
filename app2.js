@@ -4,6 +4,7 @@ const cors = require('koa-cors');
 const bodyParser = require('koa-bodyparser');
 const Validator = require('validatorjs');
 
+const sequelize = require('./config/sequelize');
 const Genre = require('./models/Genre');
 const Artist = require('./models/Artist');
 const Song = require('./models/Song');
@@ -25,6 +26,36 @@ router.get('/api/genres', function *(next) {
 router.get('/api/artists', function *(next) {
   let artists = yield Artist.findAll();
   this.body = { artists };
+});
+
+router.post('/api/artists', function *(next) {
+  let validation = new Validator(this.request.body, {
+    name: 'required'
+  });
+
+  let artistWasAlreadyCreated = yield Artist.findOne({
+    where: {
+      name: this.request.body.name
+    }
+  });
+
+  if (artistWasAlreadyCreated) {
+    let response = new BadRequest({
+      name: ['Artist already created']
+    });
+    this.status = response.status;
+    return this.body = response.body;
+  }
+
+  if (validation.passes()) {
+    let artist = Artist.build(this.request.body);
+    yield artist.save();
+    this.body = { artist };
+  } else {
+    let response = new BadRequest(validation.errors.all());
+    this.status = response.status;
+    this.body = response.body;
+  }
 });
 
 router.get('/api/artists/:id', function *(next) {
