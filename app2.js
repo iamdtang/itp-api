@@ -3,6 +3,7 @@ const router = require('koa-router')();
 const cors = require('koa-cors');
 const bodyParser = require('koa-bodyparser');
 const Validator = require('validatorjs');
+const faker = require('faker');
 
 const sequelize = require('./config/sequelize');
 const Genre = require('./models/Genre');
@@ -14,6 +15,23 @@ const BadRequest = require('./responses/bad-request');
 
 app.use(cors());
 app.use(bodyParser());
+
+router.get('/api/v1/me', function *() {
+  this.body = {
+    data: {
+      firstName: 'Yehuda',
+      lastName: 'Katz',
+      openSourceProjects: [
+        { name: 'Ember.js' },
+        { name: 'Rust' },
+        { name: 'jQuery' },
+        { name: 'Ruby on Rails' },
+        { name: 'Yarn' }
+      ],
+      isAdmin: faker.random.boolean()
+    }
+  };
+});
 
 router.get('/api/songs', function *(next) {
   this.body = yield Song.findAll();
